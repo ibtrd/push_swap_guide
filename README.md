@@ -1,5 +1,5 @@
 
-# Push_Swap_Guide
+# push_swap_guide
 
 A proposition on how to solve 42cursus's project Push_swap !
 
@@ -8,17 +8,18 @@ A proposition on how to solve 42cursus's project Push_swap !
 
 ## Introduction
 
-First of all, I would like to point that the solution i'm going to talk about is based on a guide writen by [EeeUnS](https://github.com/EeeUnS) from 🇰🇷42seoul. If you'd like to check out their original post, here's a [link](https://eeeuns.github.io/2022/04/15/push-swap/) to it!
+First of all, I would like to point that the solution i'm going to talk about is heavily based on a guide writen by [EeeUnS](https://github.com/EeeUnS) from 🇰🇷42seoul. If you'd like to check out their original post, here's a [link](https://eeeuns.github.io/2022/04/15/push-swap/) to it!
 
-Although decyphering the guide using Google Translate gave us some trouble, my push_swap ended up crushing the operation requierement for a ✅100/100 grade on the mandatory part.
+Although decyphering the guide using Google Translate gave us some trouble, my program ended up crushing the operation requierement for a ✅100/100 grade on the mandatory part.
 
 ![100](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/complexity100.jpg?raw=true)
+
 ![500](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/complexity500.jpg?raw=true)
 
 ⬆️ Generated using [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
 
-⚠️ Note that we won't talk about actual code here. I'm only going to talk about the logic behind the algorithm, what makes it work. It'll be up to you to implement it 
 
+⚠️ Note that we won't talk about actual code here. I'm only going to talk about the logic behind the algorithm, what makes it work. Implementing it will be up to you! Don't panic though, you'll be able to do so with basic C programming.
 
 
 
@@ -29,13 +30,13 @@ Before we dive into the algorithm, let's make sure we're on the same page. This 
 If you haven't already, I'd suggest you to work on both of these parts first, aswell as a function for each of the push_swap instuctions available to us (sa, sb, ss, pa, pb, ra, rb, rr, rra, rrb, rrr).
 
 
-## PART 1 - Indexing
+## ⏺️ PART 1 - Indexing
 
 In order to sort our list of integers we'll not only need to compare them to each other, we'll also need to know if they are part of the X smallests of the list.
 
 To be able to figure this out, we're going to replace every integer's value by it's expected index in the final sorted list. Yes, in order to sort the list using push_swap instructions, the first thing our algorithm's gonna do is ... sort the list 😆
 
-One simple rule can be followed to assign an index to our integers: 
+#### One simple rule can be followed to assign an index to our integers: 
 
     📝 Each integer's index is equal to the amount of integers in the list that are lower than itself.
 
@@ -80,5 +81,54 @@ We are now able to sort our list using either the initial value of our integers,
 - ```36 | 2```
 - ```42 | 3```
 
-This step is crutial as it lets us work with **consecutive** values, aswell as it's targeted position in our final list
-## PART 2 - Presort
+This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list
+## ⏩ PART 2 - Presort
+
+Alright, everything's setup! How about some actual sorting?
+
+Because we're restricted to push_swap instructions (sa, sb, ss, ...) which only ever affect the top elements of **stack A** to sort it, unless it constains a really low amount of elements it's actualy impossible to sort it without pushing most of the integers to **stack B**. In the end sorted elements must all end in stack A, so any element pushed to stack B must be pushed back to stack A at some point. Since it would be terribly inneficient to push everything to stack B in a sorted state only to push then back in the same order, we're going to exploit this back and forth motion ```A -> B | A <- B``` with a presorting pass.
+
+#### Our goal
+
+📝 Push every element from stack A to stack B, using their index to regroup them in an approximate ascending order
+
+#### Initial state
+
+![start](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_start.jpg?raw=true)
+⬆️ Generated using [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
+
+#### Presort state
+
+![presort](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_presort.jpg?raw=true)
+
+To achieve this we'll need to keep rotating through stack A, checking the top element's index to figure out if it meets a couple conditions. If they are met, we'll push the element to stack B, if they are not we'll keep rotating until a valid element ends up on top and keep doing this until stack A ends up empty.
+
+Those two conditions are:
+- Stack A top element's index is lower than the amount of elements we've pushed to stack B this far.
+or
+- Stack A top element's index is lower than the amount of elements we've pushed to stack B this far plus a constant value that will be determined by the total amount of element we're trying to sort. Frim now on, we'll call this constant **chunck**!
+
+The most important condition in the seconde one, it means that from the starting state we allow the
+
+
+
+#### Sorted state
+
+![end](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_sorted.jpg?raw=true)
+
+#### 
+
+
+
+
+
+
+
+
+## ⏪ PART 3 - Final sort
+## 🔗 Links
+
+- [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/)
+- [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
+- [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
+
