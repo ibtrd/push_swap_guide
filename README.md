@@ -84,39 +84,52 @@ We are now able to sort our list using either the initial value of our integers,
 This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list
 ## ⏩ PART 2 - Presort
 
-Alright, everything's setup! How about some actual sorting?
-
-Because we're restricted to push_swap instructions (sa, sb, ss, ...) which only ever affect the top elements of **stack A** to sort it, unless it constains a really low amount of elements it's actualy impossible to sort it without pushing most of the integers to **stack B**. In the end sorted elements must all end in stack A, so any element pushed to stack B must be pushed back to stack A at some point. Since it would be terribly inneficient to push everything to stack B in a sorted state only to push then back in the same order, we're going to exploit this back and forth motion ```A -> B | A <- B``` with a presorting pass.
-
-#### Our goal
-
-📝 Push every element from stack A to stack B, using their index to regroup them in an approximate ascending order
-
-#### Initial state
+### Initial state
 
 ![start](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_start.jpg?raw=true)
 ⬆️ Generated using [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
 
-#### Presort state
+Alright, everything's setup! How about some actual sorting?
 
-![presort](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_presort.jpg?raw=true)
+Because we're restricted to push_swap instructions (sa, sb, ss, ...) which only ever affect the top elements of **stack A** to sort it, unless it constains a really low amount of elements it's actualy impossible to sort it without pushing most of the elements to **stack B**. Then in the end, sorted elements must all end in stack A so any element pushed to stack B must be pushed back to stack A at some point. Since it would be terribly inneficient to push everything to stack B in a sorted state only to push then back in the same order, we're going to exploit this back and forth motion ```A -> B | A <- B``` with a presorting pass.
 
-To achieve this we'll need to keep rotating through stack A, checking the top element's index to figure out if it meets a couple conditions. If they are met, we'll push the element to stack B, if they are not we'll keep rotating until a valid element ends up on top and keep doing this until stack A ends up empty.
+### Our goal
 
-Those two conditions are:
-- Stack A top element's index is lower than the amount of elements we've pushed to stack B this far.
-or
-- Stack A top element's index is lower than the amount of elements we've pushed to stack B this far plus a constant value that will be determined by the total amount of element we're trying to sort. Frim now on, we'll call this constant **chunck**!
+    📝 Push every element from stack A to stack B, using their index to regroup them in an approximate ascending order
 
-The most important condition in the seconde one, it means that from the starting state we allow the
+To achieve this we'll need to keep rotating through stack A, checking the top element's index to figure out if it meets a couple conditions. If one of them is met, we'll push the element to stack B, if they are not we'll keep rotating until a valid element ends up on top.
 
+For these two conditions we'll need to keep track of two important values:
 
+- The amount of elements we've pushed to stack B this far, which starts at zero and gets incremented by one for each push during this presorting pass.<br>From now on, we'll call this value ***pushed***!
 
-#### Sorted state
+- A constant value that will be determined by the total amount of element we're trying to sort.<br>We'll discuss on how to quantify it later down the line but from now on, we'll call this constant ***chunck***!
 
-![end](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_sorted.jpg?raw=true)
+Out of simplicity for the following part, the index of stack A's top element will be refered as ***atop***.
 
-#### 
+#### First condition
+
+- *atop* is lower than *pushed*.
+
+#### Second condition
+
+- *atop* is higher or equal to *pushed* and lower than *pushed* plus *chunck*
+
+In order to regroup silimar elements as best as we can, after each push for the second condition we'll also apply a rotation to stack B to bring it at the very bottom of the stack. This way, every element pushed from the first condition will end up of the top part of stack B and every element pushed from the second one wil end up on bottom part of stack B.
+
+### chunck value
+
+As refered in [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/). They tried different values with multiple amount of elements to sort, in order to figure out a polynomial allowing us to set this value in our program.
+
+For **x** elements to be sorted
+
+*chunck* = 0.000000053x^2 + 0.03x + 14.5
+
+### Presort state
+
+In the end stack A should be empty, while stack B should contain all of our elements, with lowest elements located towards the middle of the stack and growing towards both of it's extremities.
+
+![presort](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_presort.jpg?raw=true) 
 
 
 
@@ -126,9 +139,22 @@ The most important condition in the seconde one, it means that from the starting
 
 
 ## ⏪ PART 3 - Final sort
+
+For this final step, we're going to push every element back to stack A, in their final position to end up with a sorted stack
+
+### Sorted state
+
+![end](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_sorted.jpg?raw=true)
+
 ## 🔗 Links
 
 - [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/)
 - [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
 - [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
 
+
+## Contribution
+
+Special thanks to
+
+csweetin
