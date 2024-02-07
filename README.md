@@ -1,8 +1,9 @@
+# WORK IN PROGRESS!
+
 
 # push_swap_guide
 
 A proposition on how to solve 42cursus's project Push_swap !
-
 
 
 
@@ -133,11 +134,6 @@ In the end stack A should be empty, while stack B should contain all of our elem
 
 
 
-
-
-
-
-
 ## ⏪ PART 3 - Final sort
 
 For this final step, we're going to push every element back to stack A, in their final position to end up with a sorted stack
@@ -152,9 +148,4 @@ For this final step, we're going to push every element back to stack A, in their
 - [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
 - [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
 
-
 ## Contribution
-
-Special thanks to
-
-csweetin
