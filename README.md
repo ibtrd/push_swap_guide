@@ -1,5 +1,4 @@
-# WORK IN PROGRESS!
-
+#WORK IN PROGRESS
 
 # push_swap_guide
 
@@ -7,11 +6,12 @@ A proposition on how to solve 42cursus's project Push_swap !
 
 
 
+
 ## Introduction
 
 First of all, I would like to point that the solution i'm going to talk about is heavily based on a guide writen by [EeeUnS](https://github.com/EeeUnS) from 🇰🇷42seoul. If you'd like to check out their original post, here's a [link](https://eeeuns.github.io/2022/04/15/push-swap/) to it!
 
-Although decyphering the guide using Google Translate gave us some trouble, my program ended up crushing the operation requierement for a ✅100/100 grade on the mandatory part.
+Although decyphering their guide using Google Translate gave us some trouble, my program ended up crushing the operation requierements for a ✅100/100 grade on the mandatory part.
 
 ![100](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/complexity100.jpg?raw=true)
 
@@ -20,7 +20,7 @@ Although decyphering the guide using Google Translate gave us some trouble, my p
 ⬆️ Generated using [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
 
 
-⚠️ Note that we won't talk about actual code here. I'm only going to talk about the logic behind the algorithm, what makes it work. Implementing it will be up to you! Don't panic though, you'll be able to do so with basic C programming.
+⚠️ Note that we won't talk about actual code here. We'll focus on the logic behind the algorithm, what makes it work. Implementing it will be up to you! Don't panic though, you'll be able to do so with basic C programming.
 
 
 
@@ -82,8 +82,7 @@ We are now able to sort our list using either the initial value of our integers,
 - ```36 | 2```
 - ```42 | 3```
 
-This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list
-## ⏩ PART 2 - Presort
+This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list## ⏩ PART 2 - Presort
 
 ### Initial state
 
@@ -94,7 +93,7 @@ Alright, everything's setup! How about some actual sorting?
 
 Because we're restricted to push_swap instructions (sa, sb, ss, ...) which only ever affect the top elements of **stack A** to sort it, unless it constains a really low amount of elements it's actualy impossible to sort it without pushing most of the elements to **stack B**. Then in the end, sorted elements must all end in stack A so any element pushed to stack B must be pushed back to stack A at some point. Since it would be terribly inneficient to push everything to stack B in a sorted state only to push then back in the same order, we're going to exploit this back and forth motion ```A -> B | A <- B``` with a presorting pass.
 
-### Our goal
+### Goal
 
     📝 Push every element from stack A to stack B, using their index to regroup them in an approximate ascending order
 
@@ -120,11 +119,11 @@ In order to regroup silimar elements as best as we can, after each push for the 
 
 ### chunck value
 
-As refered in [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/). They tried different values with multiple amount of elements to sort, in order to figure out a polynomial allowing us to set this value in our program.
+As refered in [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/). They tried different chunck values for multiple amount of elements to sort in order to figure out a polynomial allowing us to set this value in our program.
 
 For **x** elements to be sorted
 
-*chunck* = 0.000000053x^2 + 0.03x + 14.5
+*chunck* = ```0.000000053x^2 + 0.03x + 14.5```
 
 ### Presort state
 
@@ -136,16 +135,57 @@ In the end stack A should be empty, while stack B should contain all of our elem
 
 ## ⏪ PART 3 - Final sort
 
+
+
 For this final step, we're going to push every element back to stack A, in their final position to end up with a sorted stack
+
+### Goal
+
+    📝 Push every element back to stack A, starting from biggest to smallest.
+
+For this, we'll need to figure out which is the biggest element in stack B, rotate until this element ends up on top of the stack then push it to stack A. Repeat this action until stack B end up empty will result in a fully sorted stack A!
+
+There is multiple techniques to find out stack B's biggest element:
+- We could scan all of the elements, comparing them successively while keeping track of the biggest one encoutered.
+or
+- Thanks to our indexes set in the first part, we can easily find a correlation between the biggest element's index and the amount of elements left in stack B. I'll let you work out this solution 🧐
+
+This part work efficiently beacause the previous presorting pass placed evey element close to elements of similar index, meaning that since we are now specificaly targeting each index consecutively, we are garrenteed to find each of them somewhat close to the previous one. So, for each targeted element that we want to push to stack A, there is just one last thing we need to do in order to move it on top efficiently:
+
+    📝 figure out if we should rotate or reverse rotate stack B.
+
+To do this, once we've figured out our targeted element (biggest in stack B) we will need to check where it is positioned in our current stack
+
+- If it's placed in the first half of the stack, we'll **rotate** until it ends up on top.
+or
+- If it's placed in the second half of the stack, we'll **reverse rotate** until it ends up on top.
+
+### Recap
+
+Let's recap the suite of actions to follow to complete this part.
+
+- Figure out which element is the biggest in stack B
+- Find out if it is closer to the top or the bottom of the stack
+- Rotate in the according direction until the element ends up on top of the stack
+- Push it to stack A
+- 🔁 Repeat the previous actions for each element left
+
+
+
 
 ### Sorted state
 
 ![end](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_sorted.jpg?raw=true)
-
+## Optimization
 ## 🔗 Links
 
 - [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/)
 - [push_swap_tester](https://github.com/SimonCROS/push_swap_tester)
 - [push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer)
 
+
 ## Contribution
+
+Special thanks to
+
+csweetin
