@@ -1,4 +1,3 @@
-#WORK IN PROGRESS
 
 # push_swap_guide
 
@@ -82,7 +81,8 @@ We are now able to sort our list using either the initial value of our integers,
 - ```36 | 2```
 - ```42 | 3```
 
-This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list## ⏩ PART 2 - Presort
+This step is crutial as it lets us work with **consecutive** values, aswell as their targeted position in our final list
+## ⏩ PART 2 - Presort
 
 ### Initial state
 
@@ -105,15 +105,15 @@ For these two conditions we'll need to keep track of two important values:
 
 - A constant value that will be determined by the total amount of element we're trying to sort.<br>We'll discuss on how to quantify it later down the line but from now on, we'll call this constant ***chunck***!
 
-Out of simplicity for the following part, the index of stack A's top element will be refered as ***atop***.
+Out of simplicity for the following part, the index of stack A's top element will be refered as ***topa***.
 
 #### First condition
 
-- *atop* is lower than *pushed*.
+- *topa* is lower than *pushed*.
 
 #### Second condition
 
-- *atop* is higher or equal to *pushed* and lower than *pushed* plus *chunck*
+- *topa* is higher or equal to *pushed* and lower than *pushed* plus *chunck*
 
 In order to regroup silimar elements as best as we can, after each push for the second condition we'll also apply a rotation to stack B to bring it at the very bottom of the stack. This way, every element pushed from the first condition will end up of the top part of stack B and every element pushed from the second one wil end up on bottom part of stack B.
 
@@ -145,12 +145,19 @@ For this final step, we're going to push every element back to stack A, in their
 
 For this, we'll need to figure out which is the biggest element in stack B, rotate until this element ends up on top of the stack then push it to stack A. Repeat this action until stack B end up empty will result in a fully sorted stack A!
 
-There is multiple techniques to find out stack B's biggest element:
-- We could scan all of the elements, comparing them successively while keeping track of the biggest one encoutered.
-or
-- Thanks to our indexes set in the first part, we can easily find a correlation between the biggest element's index and the amount of elements left in stack B. I'll let you work out this solution 🧐
+From now on, we'll call stack B's biggest element ***biggestB***
 
-This part work efficiently beacause the previous presorting pass placed evey element close to elements of similar index, meaning that since we are now specificaly targeting each index consecutively, we are garrenteed to find each of them somewhat close to the previous one. So, for each targeted element that we want to push to stack A, there is just one last thing we need to do in order to move it on top efficiently:
+To find out biggestB, we'll scan all of the elements in the stack, consecutively comparing them to the biggest value encoutered yet. Start by setting *biggestB* to the value of the first element in the stack, then compare it to the value of the next element.
+- If the next elements value is smaller than the previously saved one, *biggestB* does not change.
+or
+- If the next elements value is bigger than the previously saved one, *biggestB* gets overwritten by this new one. 
+
+-  🔁 Repeat the comparison with the next element in the list, until you reach the end of it.
+
+
+### Rotation
+
+This part workS efficiently beacause the presorting pass placed evey element close to elements of similar index, meaning that since we are now specificaly targeting each index consecutively, we are garrenteed to find each of them somewhat close to the previous one. So, for each targeted element that we want to push to stack A, there is just one last thing we need to do in order to move it on top efficiently:
 
     📝 figure out if we should rotate or reverse rotate stack B.
 
@@ -159,6 +166,8 @@ To do this, once we've figured out our targeted element (biggest in stack B) we 
 - If it's placed in the first half of the stack, we'll **rotate** until it ends up on top.
 or
 - If it's placed in the second half of the stack, we'll **reverse rotate** until it ends up on top.
+
+We've now raised biggestB on top of the stack, ready to be pushed back to A!
 
 ### Recap
 
@@ -188,4 +197,4 @@ Let's recap the suite of actions to follow to complete this part.
 
 Special thanks to
 
-csweetin
+cdomet-d
