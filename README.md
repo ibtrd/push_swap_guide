@@ -133,6 +133,7 @@ In the end stack A should be empty, while stack B should contain all of our elem
 
 
 
+
 ## ⏪ PART 3 - Final sort
 
 
@@ -157,7 +158,7 @@ or
 
 ### Rotation
 
-This part workS efficiently beacause the presorting pass placed evey element close to elements of similar index, meaning that since we are now specificaly targeting each index consecutively, we are garrenteed to find each of them somewhat close to the previous one. So, for each targeted element that we want to push to stack A, there is just one last thing we need to do in order to move it on top efficiently:
+This part works efficiently beacause the presorting pass placed evey element close to elements of similar index, meaning that since we are now specificaly targeting each index consecutively, we are garrenteed to find each of them somewhat close to the previous one. So, for each targeted element that we want to push to stack A, there is just one last thing we need to do in order to move it on top efficiently:
 
     📝 figure out if we should rotate or reverse rotate stack B.
 
@@ -186,6 +187,8 @@ Let's recap the suite of actions to follow to complete this part.
 
 ![end](https://github.com/ibtrd/push_swap_guide/blob/main/imgs/visualizer_sorted.jpg?raw=true)
 ## Optimization
+
+Upcomming part
 ## 🔗 Links
 
 - [@EeeUnS](https://github.com/EeeUnS)'s [original guide](https://eeeuns.github.io/2022/04/15/push-swap/)
